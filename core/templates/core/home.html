@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+
+{% block title %}home{% endblock %}
+
+{% block content %}
+<div class="bg-[#ef9b46] min-h-[580px] pt-28">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="title text-center text-white text-6xl">Heartlandned</h1>
+        <p class="text-center px-14 text-slate-100 mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur earum esse debitis officia corrupti exercitationem est voluptatibus, dolorem nesciunt ea?</p>
+        <div class="mt-8">
+            <form action="{% url 'core:browser' %}" method="get" class="mx-auto max-w-md flex items-center bg-white p-2 rounded-full">
+                <div class="relative flex-1">
+                    <input name="query" value="{{query}}" type="text" placeholder="searching..." class="w-full py-3 px-4 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                </div>
+                <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 ml-4 rounded-full transition duration-300 ease-in-out">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="max-w-4xl  mx-auto mt-14">
+        <div class="flex justify-around mx-auto gap-20">
+            <div class="">
+                <img class="w-[120px] h-[100px]" src="http://127.0.0.1:8000/media/images/cate1.png" alt="">
+                <h1 class="text-white text-center">Cupboard</h1>
+            </div>
+            <div class="">
+                <img class="w-[120px] h-[100px]" src="http://127.0.0.1:8000/media/images/cate2.png" alt="">
+                <h1 class="text-white text-center">Table</h1>
+            </div>
+            <div class="">
+                <img class="w-[120px] h-[100px]" src="http://127.0.0.1:8000/media/images/cate3.png" alt="">
+                <h1 class="text-white text-center">Sofa</h1>
+            </div>
+            <div class="">
+                <img class="w-[120px] h-[100px]" src="http://127.0.0.1:8000/media/images/cate4.png" alt="">
+                <h1 class="text-white text-center">Chair</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="px-40 mt-28 text-center mx-auto max-w-4xl">
+    <p class="text-[#8f5e2d] text-lg">READY-TO-GO CONTENT</p>
+    <h1 class="text-3xl font-semibold mb-2 text-slate-800">Instant creativity hub</h1>
+    <p class="text-slate-700 text-[1rem]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, consequatur. ipsum dolor sit, amet consectetur adipisicing elit. Dolores, commodi.</p>
+</div>
+
+<div class="flex gap-6 justify-around max-w-7xl mx-auto mt-14">
+    <div class="relative w-[300px] h-[300px]">
+        <img src="http://127.0.0.1:8000/media/images/gambar3.jpg" class="w-full h-full shadow-md rounded-xl" alt="">
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50 text-white">
+            <span class="text-lg font-semibold">Handicraft</span>
+        </div>
+    </div>
+
+    <div class="relative w-[300px] h-[300px]">
+        <img src="http://127.0.0.1:8000/media/images/gambarsatu.jpg" class="w-full h-full shadow-md rounded-xl" alt="">
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50 text-white">
+            <span class="text-lg font-semibold">Handicraft</span>
+        </div>
+    </div>
+
+    <div class="relative w-[300px] h-[300px]">
+        <img src="http://127.0.0.1:8000/media/images/gambar2.jpg" class="w-full h-full shadow-md rounded-xl" alt="">
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50 text-white">
+            <span class="text-lg font-semibold">Handicraft</span>
+        </div>
+    </div>
+
+    <div class="relative w-[300px] h-[300px]">
+        <img src="http://127.0.0.1:8000/media/images/header3.jpg" class="w-full h-full shadow-md rounded-xl" alt="">
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50 text-white">
+            <span class="text-lg font-semibold">Handicraft</span>
+        </div>
+    </div>
+    
+</div>
+
+
+<div class="px-40 mt-24 flex gap-4 items-center justify-between mb-9">
+    <div class="text-[#8f5e2d] max-w-2xl">
+        <p class="text-lg mb-3">COLLECTIONS</p>
+        <h1 class="text-4xl text-slate-900 mb-2 ">Extraordinary, in a nutshell</h1>
+        <p class="text-[1rem] text-slate-800 mb-6">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate dolorem dicta iusto doloremque expedita excepturi iure, aliquid nesciunt quia in?</p>
+    </div>
+    <div class="mr-20">
+        <button class="text-white bg-slate-800 rounded-lg px-4 py-2">Explore Colection</button>
+    </div>
+</div>
+
+<div class="grid gap-4 grid-cols-5 px-10 lg:px-20 xl:px-40">
+    {% for produk in produks %}
+        <a href="{% url 'core:detail' produk.id %}" class="w-full block">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="{{ produk.image.url }}" alt="{{ produk.name }}" class="w-full h-56 object-cover object-center">
+                <div class="p-4">
+                    <h2 class="text-gray-900 text-lg mb-2">{{ produk.name }}</h2>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+
+
+</div>
+{% endblock %}

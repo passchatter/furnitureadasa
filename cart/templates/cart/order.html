@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Order{% endblock %}
+
+{% block content %}
+    <div class="px-10 pt-32">
+        <div class="flex items-center justify-between">
+            <h1 class="text-slate-900 font-semibold text-2xl mb-4">your history order</h1>
+            <h1>total order : ${{total_order}}</h1>
+        </div>
+       <div class="grid grid-cols-5 gap-6">
+        {% for order in orders %}
+            <div class="border rounded-lg p-4 bg-white shadow-md">
+                <h1 class="text-lg font-semibold text-gray-800">{{ order.produk.name }}</h1>
+                <img src="{{ order.produk.image.url }}" class="w-full h-auto mt-2" alt="{{ order.produk.name }}">
+                <div class="mt-4">
+                    <p class="text-gray-900 mb-4">{{ order.produk.subtitle }}</p>
+                    <p class="text-slate-600 text-[.9rem]">harga : ${{ order.produk.price }}/item</p>
+                    <p class="text-slate-600 text-[.9rem]">quantity : {{ order.quantity }}</p>
+                    <p class="text-slate-600 text-[.9rem]">subtotal : ${{ order.subtotal }}</p>
+                </div>
+               
+            </div>
+        {% endfor %}
+       </div>
+    </div>
+{% endblock %}

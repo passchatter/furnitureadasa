@@ -1,0 +1,104 @@
+{% extends 'core/base.html' %}
+
+{% block title %}detail{% endblock %}
+
+{% block content %}
+    <div class="pt-44 px-4 lg:px-0">
+        <div class="container mx-auto">
+            <div class="flex flex-col justify-between lg:flex-row gap-16">
+                <div class="lg:w-1/2">
+                    <img src="{{ produk.image.url }}" class="w-full h-auto lg:h-[500px] rounded-lg shadow-md" alt="{{ produk.name }}">
+
+                </div>
+                <div class="lg:w-full">
+                    <div class="py-6 lg:py-0">
+                        <h1 class="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">{{ produk.name }}</h1>
+                        <p class="text-gray-700 mb-2"><span class="font-semibold"></span> {{ produk.description }}</p>
+                        <div class="flex gap-5 items-center">
+                          <div class="">
+                            <p class="text-gray-700 mb-2"><span class="font-semibold">Harga:</span>${{ produk.price }}</p>
+                            <p class="text-gray-700 mb-2"><span class="font-semibold">Diskon:</span> {{ produk.discount }}%</p>
+                          </div>
+                          <div class="">
+                            <p class="text-gray-700 mb-2"><span class="font-semibold">Material:</span> {{ produk.material }}</p>
+                            <p class="text-gray-700 mb-2"><span class="font-semibold">Ukuran:</span> {{ produk.ukuran }}</p>
+                          </div>
+                        </div>
+                        <p class="text-gray-700 mb-2"><span class="font-semibold">Warna:</span> {{ produk.warna }}</p>
+                        <p class="text-gray-700 mb-2"><span class="font-semibold"></span> {{ produk.fitur }}</p>
+                       
+                        <form id="cartForm" method="POST" action="{% url 'cart:addcart' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="produk_id" value="{{ produk.id }}">
+                            <label for="quantity" class="block text-gray-700 font-semibold mb-2">Jumlah:</label>
+                            <input type="number" id="quantity" name="quantity" class="w-72 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" value="1" min="1"><br>
+                            <button type="button" class="text-white px-5 rounded-lg bg-slate-800 py-4 mt-3" onclick="setAction('addcart')">Add To Cart</button>
+                            <button type="button" class="text-white px-5 rounded-lg bg-slate-800 py-4 mt-3" onclick="setAction('order')">Order</button>
+                        </form>
+                        
+                      
+                    </div>
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 px-40 mt-10">
+        <div class="mb-3 mt-4">
+            <h1 class="mb-6 font-semibold text-xl">Comment: {{produk.comment_count}}</h1>
+            {% for cmt in comments  %}
+                <div class="mb-4">
+                    <h1 class="text-slate-900">{{cmt.user}}</h1>
+                    <p class="text-[.9rem] text-slate-700">{{cmt.text}}</p>
+                </div>
+            {% endfor %}
+          </div>
+
+            <div class="mt-7">
+                {% if request.user.is_authenticated %}
+                    <form action="." method="post">
+                        {% csrf_token %}
+
+                        {{form.as_p}}
+                        <button class="bg-teal-500 text-white px-3 py-2 rounded-md">send</button>
+                    </form>
+                {% else %}
+                    <p>silahkan login terlebih dahulu</p>
+                {% endif %}
+            </div>
+    </div>
+
+
+    <div class="mt-28 px-40">
+        <h1 class="text-xl font-semibold text-slate-700 mt-10 mb-6">related produk:</h1>
+        <div class="grid grid-cols-5 gap-5">
+            {% for produk in related %}
+                <a href="{% url 'core:detail' produk.id %}" class="w-full block">
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <img src="{{ produk.image.url }}" alt="{{ produk.name }}" class="w-full h-56 object-cover object-center">
+                        <div class="p-4">
+                            <h2 class="text-gray-900 text-lg mb-2">{{ produk.name }}</h2>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function setAction(action) {
+            var form = document.getElementById('cartForm');
+            if (action === 'addcart') {
+                form.action = '{% url "cart:addcart" %}';
+            } else if (action === 'order') {
+                form.action = '{% url "cart:order" %}';
+            }
+            form.submit(); // Optionally submit the form automatically after changing the action
+        }
+    </script>
+    
+   
+  
+{% endblock %}
+

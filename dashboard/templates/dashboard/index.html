@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Browser{% endblock %}
+
+{% block content %}
+    <div class="flex px-40 py-12 pt-32">
+        <!-- Left Sidebar for Category Filters -->
+        <div class="w-1/4 pr-6">
+            <h2 class="text-lg font-semibold mb-4">Filter by Category</h2>
+            <!-- Example of Category Filters -->
+          
+            <ul>
+                {% for category in categorys %}
+                  <li class="mb-7 {% if category.id == category_id %}bg-gray-300 rounded-lg{% endif %} px-4 py-3">
+                    <a href="{% url 'dashboard:dashindex' %}?query={{query}}&category={{category.id}}" class="text-black">
+                      {{category.name}}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+              
+
+            <a href="{% url 'dashboard:dashindex' %}" class="text-white px-5 py-2 inline-block mt-3 bg-yellow-500 rounded-md ">reset</a>
+            <a href="{% url 'dashboard:addproduk' %}" class="text-white px-5 py-2 inline-block mt-3 bg-green-700 rounded-md ">add porduk</a>
+        </div>
+        
+
+        <!-- Right Content for Product Data -->
+        <div class="w-3/4">
+            <h1 class="text-3xl font-semibold mb-3">Your Dashboard</h1>
+            <form action="{% url 'dashboard:dashindex' %}" method="get" class="max-w-md flex items-center bg-white p-2 rounded-full mb-7">
+                <div class="relative flex-1">
+                    <input name="query" value="{{query}}"  type="text" placeholder="searching..." class="py-3 px-4 rounded-xl bg-white text-gray-800 placeholder-gray-500 focus:outline-none ring-2 ring-yellow-500 w-full border-transparent">
+                </div>
+                <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 ml-4 rounded-xl transition duration-300 ease-in-out">Submit</button>
+            </form>
+            <div class="flex gap-6 mb-6">
+                {% for category in categorys %}
+                    <a href="{% url 'dashboard:dashindex' %}?query={{query}}&category={{category.id}}">
+                        <div class="px-3 bg-slate-200 flex gap-2 items-center py-2 rounded-lg {% if category.id == category_id %}bg-slate-300{% endif %}">
+                            <div class="">
+                                <img src="{{category.image.url}}" class="w-[40px] h-[30px]" alt="">
+                            </div>
+                            <p>{{category.name}}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <!-- Grid for Product Display -->
+            <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {% for produk in produks %}
+                   
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                            <img src="{{ produk.image.url }}" alt="{{ produk.name }}" class="w-full h-56 object-cover object-center">
+                            <div class="p-4">
+                                <h2 class="text-gray-900 text-[.9rem] mb-2">{{ produk.name }}</h2>
+                                <div class="flex gap-2">
+                                    <a href="{% url 'core:detail' produk.id %}" class="text-white bg-blue-500 px-2 text-[.9rem] rounded-lg py-1">detail</a>
+                                    <a href="{% url 'dashboard:updateproduk' produk.id %}" class="text-white bg-orange-500 px-2 text-[.9rem] rounded-lg py-1">update</a>
+                                    <a href="{% url 'dashboard:deleteproduk' produk.id %}" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')" class="text-white bg-red-500 px-2 text-[.9rem] rounded-lg py-1">delete</a>
+
+                                </div>
+                            </div>
+                           
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

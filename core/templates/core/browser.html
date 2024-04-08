@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Browser{% endblock %}
+
+{% block content %}
+    <div class="flex lg:px-40 px-14 py-12 pt-32">
+        <!-- Left Sidebar for Category Filters -->
+        <div class="w-1/4 pr-6">
+            <h2 class="text-lg font-semibold mb-4">Filter by Category</h2>
+            <!-- Example of Category Filters -->
+          
+            <ul>
+                {% for category in categorys %}
+                  <li class="mb-7 {% if category.id == category_id %}bg-gray-300 rounded-lg{% endif %} px-4 py-3">
+                    <a href="{% url 'core:browser' %}?query={{query}}&category={{category.id}}" class="text-black">
+                      {{category.name}}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+              
+
+            <a href="{% url 'core:browser' %}" class="text-white px-5 py-2 inline-block mt-3 bg-yellow-500 rounded-md border border-yellow-600">reset</a>
+        </div>
+        
+
+        <!-- Right Content for Product Data -->
+        <div class="w-3/4">
+            <h1 class="text-3xl font-semibold mb-3">Browser</h1>
+            <form action="{% url 'core:browser' %}" method="get" class="max-w-md flex items-center bg-white p-2 rounded-full mb-7">
+                <div class="relative flex-1">
+                    <input name="query" value="{{query}}"  type="text" placeholder="searching..." class="py-3 px-4 rounded-xl bg-white text-gray-800 placeholder-gray-500 focus:outline-none ring-2 ring-yellow-500 w-full border-transparent">
+                </div>
+                <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 ml-4 rounded-xl transition duration-300 ease-in-out">Submit</button>
+            </form>
+            <div class="flex gap-6 mb-6">
+                {% for category in categorys %}
+                    <a href="{% url 'core:browser' %}?query={{query}}&category={{category.id}}">
+                        <div class="px-3 bg-slate-200 flex gap-2 items-center py-2 rounded-lg {% if category.id == category_id %}bg-slate-300{% endif %}">
+                            <div class="">
+                                <img src="{{category.image.url}}" class="w-[40px] h-[30px]" alt="">
+                            </div>
+                            <p>{{category.name}}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <!-- Grid for Product Display -->
+            <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {% for produk in produks %}
+                    <a href="{% url 'core:detail' produk.id %}" class="w-full block">
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                            <img src="{{ produk.image.url }}" alt="{{ produk.name }}" class="w-full h-56 object-cover object-center">
+                            <div class="p-4">
+                                <h2 class="text-gray-900 text-[.9rem] mb-2">{{ produk.name }}</h2>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

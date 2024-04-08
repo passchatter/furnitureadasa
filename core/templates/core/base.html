@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | adasafurniture</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&display=swap');
+        .title{
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700; /* Atur ketebalan font sesuai kebutuhan */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="fixed z-30 w-full flex items-center bg-[#ef9b46] justify-between py-5 px-14 text-white">
+    <div class="flex gap-2 items-center">
+        <div class="flex items-center gap-2 relative">
+            <div class="text-2xl text-white mt-2 cursor-pointer font-bold" id="menuIcon" onclick="toggleDropdown()"><ion-icon name="menu-outline"></ion-icon></div>
+            <p class="font-bold cursor-pointer" id="category" onclick="toggleDropdown()">Category</p>
+            <div class="top-10 rounded-xl hidden dropdown-menu absolute bg-white shadow-md mt-2 py-2 w-32 right-0" id="dropdownMenu">
+                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Option 1</a>
+                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Option 2</a>
+                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Option 3</a>
+            </div>
+        </div>
+        
+        <ul class="ml-7">
+            <li class="flex gap-9 items-center">
+                {% if request.user.is_authenticated %}
+                <a href="/">Home</a>
+                <a href="{% url 'core:browser' %}">Browse</a>
+                <a href="{% url 'dashboard:dashindex' %}">Dashboard</a>
+                <a href="{% url 'cart:getorder' %}">Order</a>
+                {% else %}
+                <a href="/">Home</a>
+                <a href="{% url 'core:browser' %}">Browse</a>
+                <a href="">Contact</a>
+                {% endif %}
+            </li>
+        </ul>
+       
+       
+    </div>
+    <div class="flex gap-7 items-center">
+        {% if request.user.is_authenticated %}
+        <a class="text-md font-bold ">Pricing</a>
+        <a class="text-md font-bold ">Logout</a>
+        {% else %}
+        <a href="{% url 'api:login' %}" class="text-md font-bold ">Sign in</a>
+        <a href="{% url 'api:signup' %}" class="text-md font-bold ">Sign Up</a>
+        {% endif %}
+        <div class="mt-1 font-bold align-middle text-2xl">
+            <ion-icon name="heart-outline"></ion-icon>
+        </div>
+        <a href="{% url 'cart:cart' %}">
+            <div class="mt-1 font-bold align-middle text-2xl">
+                <ion-icon name="cart-outline"></ion-icon>
+                
+            </div>
+        </a>
+    </div>
+    
+</nav>
+
+<div class="">
+    {% block content %}
+    
+    {% endblock %}
+</div>
+
+<script>
+    function toggleDropdown() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const menuIcon = document.getElementById('menuIcon');
+     
+        
+        if (dropdownMenu.classList.contains('hidden')) {
+            dropdownMenu.classList.toggle('hidden');
+            menuIcon.innerHTML = '<ion-icon name="close-outline"></ion-icon>';
+        } else {
+            dropdownMenu.classList.toggle('hidden');
+            menuIcon.innerHTML = '<ion-icon name="menu-outline"></ion-icon>';
+        }
+    }
+</script>
+
+
+<footer class="bg-gray-800 py-20 mt-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="">
+                <h2 class="text-white text-lg font-semibold mb-4">About Us</h2>
+                <p class="text-slate-300 text-[.9rem]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac ante ut lectus fermentum luctus.</p>
+            </div>
+            <div class="">
+                <h2 class="text-white text-lg font-semibold mb-4">Contact Us</h2>
+                <p class="text-slate-300 text-[.9rem]">Email: info@example.com</p>
+                <p class="text-slate-300 text-[.9rem]">Phone: +1234567890</p>
+            </div>
+            <div class="">
+                <h2 class="text-white text-lg font-semibold mb-4">Follow Us</h2>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-slate-300 hover:text-white"><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href="#" class="text-slate-300 hover:text-white"><ion-icon name="logo-twitter"></ion-icon></a>
+                    <a href="#" class="text-slate-300 hover:text-white"><ion-icon name="logo-instagram"></ion-icon></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-32 border-t border-gray-700 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="tex-slate-700 text-[.9rem] mt-9 text-slate-300">© 2024 Your Website. All rights reserved.</p>
+    </div>
+</footer>
+
+
+</body>
+</html>
